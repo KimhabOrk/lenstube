@@ -118,7 +118,6 @@ const CollectModule = () => {
           enabledCurrencies ? (
             <FeeCollectForm
               setCollectType={setCollectType}
-              uploadedVideo={uploadedVideo}
               setShowModal={setShowModal}
               enabledCurrencies={enabledCurrencies}
             />

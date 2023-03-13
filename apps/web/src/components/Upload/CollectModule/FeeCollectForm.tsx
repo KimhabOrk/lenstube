@@ -1,6 +1,8 @@
 import { Button } from '@components/UIElements/Button'
 import { Input } from '@components/UIElements/Input'
+import { Toggle } from '@components/UIElements/Toggle'
 import { zodResolver } from '@hookform/resolvers/zod'
+import useAppStore from '@lib/store'
 import useChannelStore from '@lib/store/channel'
 import { utils } from 'ethers'
 import type { Erc20 } from 'lens'
@@ -8,14 +10,13 @@ import type { Dispatch, FC } from 'react'
 import React, { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
-import type { CollectModuleType, UploadedVideo } from 'utils'
+import type { CollectModuleType } from 'utils'
 import { WMATIC_TOKEN_ADDRESS } from 'utils'
 import { z } from 'zod'
 
 import Splits from './Splits'
 
 type Props = {
-  uploadedVideo: UploadedVideo
   setCollectType: (data: CollectModuleType) => void
   setShowModal: Dispatch<boolean>
   enabledCurrencies: { enabledModuleCurrencies: Array<Erc20> }
@@ -33,14 +34,16 @@ const formSchema = z.object({
 export type FormData = z.infer<typeof formSchema>
 
 const FeeCollectForm: FC<Props> = ({
-  uploadedVideo,
   setCollectType,
   setShowModal,
   enabledCurrencies
 }) => {
   const submitContainerRef = useRef<HTMLDivElement>(null)
 
+  const uploadedVideo = useAppStore((state) => state.uploadedVideo)
+  const setUploadedVideo = useAppStore((state) => state.setUploadedVideo)
   const selectedChannel = useChannelStore((state) => state.selectedChannel)
+
   const [selectedCurrencySymbol, setSelectedCurrencySymbol] = useState('WMATIC')
   const splitRecipients = uploadedVideo.collectModule.multiRecipients ?? []
 
@@ -204,7 +207,23 @@ const FeeCollectForm: FC<Props> = ({
           validationError={errors.referralPercent?.message}
         />
       </div>
-      <Splits submitContainerRef={submitContainerRef} />
+      {!Boolean(uploadedVideo.collectModule.isAaveFeeCollect) && (
+        <Splits submitContainerRef={submitContainerRef} />
+      )}
+      <div className="py-2">
+        <Toggle
+          label="Deposit future collect revenue on to Aave v3"
+          enabled={Boolean(uploadedVideo.collectModule.isAaveFeeCollect)}
+          setEnabled={(isAaveFeeCollect) => {
+            setUploadedVideo({
+              collectModule: {
+                ...uploadedVideo.collectModule,
+                isAaveFeeCollect
+              }
+            })
+          }}
+        />
+      </div>
       <div className="flex justify-end pt-2" ref={submitContainerRef}>
         <Button type="button" onClick={() => handleSubmit(validateInputs)()}>
           Set Collect Type

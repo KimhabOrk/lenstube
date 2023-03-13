@@ -16,6 +16,34 @@ export const getCollectModule = (
       revertCollectModule: true
     }
   }
+  // Aave fee deposit
+  // if (selectedCollectModule.isAaveFeeCollect) {
+  //   let aaveFeeCollectModule: AaveFeeCollectModuleParams = {
+  //     amount: {
+  //       currency: selectedCollectModule.amount?.currency,
+  //       value: selectedCollectModule.amount?.value as string
+  //     },
+  //     recipient: selectedCollectModule.recipient,
+  //     referralFee: selectedCollectModule.referralFee as number,
+  //     followerOnly: selectedCollectModule.followerOnlyCollect as boolean
+  //   }
+  //   if (
+  //     selectedCollectModule.isLimitedTimeFeeCollect ||
+  //     selectedCollectModule.isLimitedFeeCollect
+  //   ) {
+  //     aaveFeeCollectModule.collectLimit =
+  //       selectedCollectModule.collectLimit as string
+  //   }
+  //   if (
+  //     selectedCollectModule.isLimitedTimeFeeCollect ||
+  //     selectedCollectModule.isTimedFeeCollect
+  //   ) {
+  //     aaveFeeCollectModule.endTimestamp = getTimeAddedOneDay()
+  //   }
+  //   return {
+  //     aaveFeeCollectModule
+  //   }
+  // }
   // Multi collect / revenue split
   if (selectedCollectModule.isMultiRecipientFeeCollect) {
     let multirecipientFeeCollectModule: MultirecipientFeeCollectModuleParams = {

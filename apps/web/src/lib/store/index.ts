@@ -51,6 +51,7 @@ export const UPLOADED_VIDEO_FORM_DEFAULTS = {
     isLimitedFeeCollect: false,
     isLimitedTimeFeeCollect: false,
     isMultiRecipientFeeCollect: false,
+    isAaveFeeCollect: false,
     collectLimit: '1',
     multiRecipients: []
   },

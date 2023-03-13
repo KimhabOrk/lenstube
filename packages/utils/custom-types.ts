@@ -42,6 +42,7 @@ export type CollectModuleType = {
   isLimitedFeeCollect?: boolean
   isLimitedTimeFeeCollect?: boolean
   isMultiRecipientFeeCollect?: boolean
+  isAaveFeeCollect?: boolean
   amount?: { currency?: string; value: string }
   referralFee?: number
   collectLimit?: string
